@@ -8,3 +8,5 @@ red is sensor input
 yellow is predict value
 
 green is estimated value
+
+<img width="1491" height="1055" alt="Image" src="https://github.com/user-attachments/assets/1cc3db2e-b902-4338-a302-653f417b2411" />
