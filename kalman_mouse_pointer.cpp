@@ -29,7 +29,7 @@ int main(){
         0,1,0,0
     );
     cv::setIdentity(kf.processNoiseCov, cv::Scalar::all(1e-4));
-    cv::setIdentity(kf.measurementNoiseCov, cv::Scalar::all(1e-1));
+    cv::setIdentity(kf.measurementNoiseCov, cv::Scalar::all(1e-2));
     cv::setIdentity(kf.errorCovPost, cv::Scalar::all(1));
 
     cv::Mat img(600,800, CV_8UC3, cv::Scalar(0,0,0));
@@ -49,11 +49,23 @@ int main(){
         if(mousePos.x >= 0 && mousePos.y >= 0){
             cv::Mat measurement = (cv::Mat_<float>(2,1) << (float)mousePos.x, (float)mousePos.y);
             cv::Mat estimated = kf.correct(measurement);
+
+            float x  = estimated.at<float>(0);
+            float y  = estimated.at<float>(1);
+            float vx = estimated.at<float>(2);
+            float vy = estimated.at<float>(3);
+
+            std::cout << "x: " << x
+                    << ", y: " << y
+                    << ", vx: " << vx
+                    << ", vy: " << vy
+                    << std::endl;
+
             estimatedPt = cv::Point(estimated.at<float>(0), estimated.at<float>(1));
         }
 
         history.push_back({mousePos, predictPt, estimatedPt});
-        if(history.size() > 166){
+        if(history.size() > 20){
             history.erase(history.begin());
         }
 
